@@ -43,7 +43,7 @@ spec:
           value: ''
       args: [
         "--model",
-        "$MODEL_NAME",
+        "$(MODEL_NAME)",
         "--download-dir",
         "/models-cache",
         "--dtype", "float16",
