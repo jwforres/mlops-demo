@@ -11,21 +11,79 @@ spec:
   builtInAdapter:
     modelLoadingTimeoutMillis: 90000
   containers:
-    - args:
-        - --model
-        - /mnt/models/
-        - --download-dir
-        - /models-cache
-        - --port
-        - "8080"
-        - --max-model-len
-        - "6144"
-      image: quay.io/rh-aiservices-bu/vllm-openai-ubi9:0.4.0.post1
-      name: kserve-container
+    - resources:
+        limits:
+          cpu: '8'
+          memory: 24Gi
+          nvidia.com/gpu: '1'
+        requests:
+          cpu: '6'
+      readinessProbe:
+        httpGet:
+          path: /health
+          port: http
+          scheme: HTTP
+        timeoutSeconds: 5
+        periodSeconds: 30
+        successThreshold: 1
+        failureThreshold: 3
+      terminationMessagePath: /dev/termination-log
+      name: server
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: http
+          scheme: HTTP
+        timeoutSeconds: 8
+        periodSeconds: 100
+        successThreshold: 1
+        failureThreshold: 3
+      env:
+        - name: HUGGING_FACE_HUB_TOKEN
+          value: ''
+      args: [
+        "--model",
+        "$MODEL_NAME",
+        "--download-dir",
+        "/models-cache",
+        "--dtype", "float16",
+        "--max-model-len", "6144" ]
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        seccompProfile:
+          type: RuntimeDefault
       ports:
-        - containerPort: 8080
-          name: http1
+        - name: http
+          containerPort: 8000
           protocol: TCP
+      imagePullPolicy: IfNotPresent
+      startupProbe:
+        httpGet:
+          path: /health
+          port: http
+          scheme: HTTP
+        timeoutSeconds: 1
+        periodSeconds: 30
+        successThreshold: 1
+        failureThreshold: 24
+      volumeMounts:
+        - name: shm
+          mountPath: /dev/shm
+      terminationMessagePolicy: File
+      image: 'quay.io/rh-aiservices-bu/vllm-openai-ubi9:0.4.0.post1'
+  volumes:
+    - name: shm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 1Gi
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
   multiModel: false
   supportedModelFormats:
     - autoSelect: true
