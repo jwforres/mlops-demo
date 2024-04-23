@@ -45,7 +45,7 @@ spec:
         "--model",
         "$(MODEL_NAME)",
         "--download-dir",
-        "/models-cache",
+        "/mnt/models/",
         "--dtype", "float16",
         "--max-model-len", "6144" ]
       securityContext:
