@@ -1,4 +1,4 @@
-# Gitops Application to sync the vllm serving runtime, inference service, and the application
+# Application to sync the vllm serving runtime, inference service, and the application
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
