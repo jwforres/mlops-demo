@@ -8,7 +8,7 @@ metadata:
     opendatahub.io/template-name: vllm
     openshift.io/display-name: merlinite-7b-lab
   name: merlinite-7b-lab
-  namespace: vllm
+  namespace: demo
   labels:
     opendatahub.io/dashboard: 'true'
 spec:
