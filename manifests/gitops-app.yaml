@@ -1,0 +1,24 @@
+# Application to sync the vllm serving runtime, inference service, and the application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vllm-app
+  labels:
+    component: vllm
+    purpose: vllm-app
+spec:
+  destination:
+    namespace: demo
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: manifests/application
+    repoURL: >-
+      https://github.com/jwforres/mlops-demo
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
