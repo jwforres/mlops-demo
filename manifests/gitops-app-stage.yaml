@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vllm-app
+  labels:
+    component: vllm
+    purpose: vllm-app
+spec:
+  destination:
+    namespace: demo-stage
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: manifests/application
+    repoURL: >-
+      https://github.com/jwforres/mlops-demo
+    targetRevision: stage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true

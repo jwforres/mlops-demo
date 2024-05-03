@@ -4,10 +4,10 @@ metadata:
   annotations:
     opendatahub.io/accelerator-name: migrated-gpu
     opendatahub.io/apiProtocol: REST
-    opendatahub.io/template-display-name: vLLM
-    opendatahub.io/template-name: vllm
-    openshift.io/display-name: merlinite-7b-lab
-  name: merlinite-7b-lab
+    opendatahub.io/template-display-name: vLLM No Max Model Length
+    opendatahub.io/template-name: vllm-no-max
+    openshift.io/display-name: vLLM
+  name: vllm
   labels:
     opendatahub.io/dashboard: 'true'
 spec:
@@ -21,8 +21,6 @@ spec:
         - /models-cache
         - '--port'
         - '8080'
-        - '--max-model-len'
-        - '6144'
       image: 'quay.io/rh-aiservices-bu/vllm-openai-ubi9:0.4.0.post1'
       name: kserve-container
       ports:
