@@ -1,0 +1,4 @@
+namespace: demo
+resources:
+- model-isvc.yaml
+- vllm-no-max-runtime.yaml

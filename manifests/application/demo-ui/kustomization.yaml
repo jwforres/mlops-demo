@@ -1,0 +1,4 @@
+namespace: demo-ui
+resources:
+- llm-chat-deployment.yaml
+- llm-chat-svc.yaml
