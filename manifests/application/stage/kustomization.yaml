@@ -1,0 +1,16 @@
+namespace: demo-stage
+bases:
+- ../base
+patchesJson6902:
+- target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: llm-chat
+  path: patch.yaml
+- target:
+    group: ''
+    version: v1
+    kind: Service
+    name: llm-chat
+  path: patch.yaml
