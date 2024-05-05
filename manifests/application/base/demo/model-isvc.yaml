@@ -2,7 +2,7 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   annotations:
-    openshift.io/display-name: granite-7b-base
+    openshift.io/display-name: granite-7b-lab
     serving.knative.openshift.io/enablePassthrough: 'true'
     sidecar.istio.io/inject: 'true'
     sidecar.istio.io/rewriteAppHTTPProbers: 'true'
@@ -25,7 +25,7 @@ spec:
       runtime: vllm
       storage:
         key: aws-connection-my-storage
-        path: models/granite-7b-base/
+        path: models/granite-7b-lab/
     tolerations:
       - effect: NoSchedule
         key: nvidia.com/gpu
